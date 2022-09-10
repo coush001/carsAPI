@@ -18,6 +18,7 @@ POSTGRES_URL = tools.get_env_variable("POSTGRES_URL")
 POSTGRES_USER = tools.get_env_variable("POSTGRES_USER")
 POSTGRES_PW = tools.get_env_variable("POSTGRES_PW")
 POSTGRES_DB = tools.get_env_variable("POSTGRES_DB")
+POSTGES_PORT = tools.get_env_variable("POSTGRES_PORT")
 
 # set config for sql alchemy to connect to postgres
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
@@ -49,7 +50,7 @@ class CarsModel(db.Model):
 @app.route("/")
 def index():
     secret_key = app.config.get("SECRET_KEY")
-    return "Hello boss MAN 10!" + f"The configured secret key is {secret_key}." + f" {DB_URL},  {POSTGRES_PW} "
+    return "Hello boss MAN 10!" + f"The URL IS :     postgres://{POSTGRES_USER}:{POSTGRES_PW}@{POSTGRES_URL}:5432/{POSTGRES_DB}"
 
 
 @app.route('/cars', methods=['POST'])
