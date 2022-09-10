@@ -4,15 +4,16 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
+import tools
 
 app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
-POSTGRES_URL = os.get_env_variable("POSTGRES_URL")
-POSTGRES_USER = os.get_env_variable("POSTGRES_USER")
-POSTGRES_PW = os.get_env_variable("POSTGRES_PW")
-POSTGRES_DB = os.get_env_variable("POSTGRES_DB")
+POSTGRES_URL = tools.get_env_variable("POSTGRES_URL")
+POSTGRES_USER = tools.get_env_variable("POSTGRES_USER")
+POSTGRES_PW = tools.get_env_variable("POSTGRES_PW")
+POSTGRES_DB = tools.get_env_variable("POSTGRES_DB")
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/cars_api"
 # db = SQLAlchemy(app)
