@@ -49,7 +49,7 @@ class CarsModel(db.Model):
 @app.route("/")
 def index():
     secret_key = app.config.get("SECRET_KEY")
-    return "Hello boss MAN 10!" + f"The configured secret key is {secret_key}." + f" {POSTGRES_DB},  {POSTGRES_PW} "
+    return "Hello boss MAN 10!" + f"The configured secret key is {secret_key}." + f" {DB_URL},  {POSTGRES_PW} "
 
 
 @app.route('/cars', methods=['POST'])
