@@ -6,8 +6,10 @@ from flask_migrate import Migrate
 from datetime import datetime
 
 app = Flask(__name__)
+env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
+app.config.from_object(env_config)
 
-app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/cars_api"
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -32,7 +34,8 @@ class CarsModel(db.Model):
 
 @app.route("/")
 def index():
-    return "Hello boss MAN 10!"
+    secret_key = app.config.get("SECRET_KEY")
+    return "Hello boss MAN 10!" + f"The configured secret key is {secret_key}."
 
 
 @app.route('/cars', methods=['POST'])
