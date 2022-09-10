@@ -6,18 +6,27 @@ from flask_migrate import Migrate
 from datetime import datetime
 import tools
 
+# create the flask app
 app = Flask(__name__)
+
+# set the config aka dev / prod etc as seen in config.py : https://realpython.com/flask-by-example-part-1-project-setup/
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
+# set up the postgres data base connection variables from ENV
 POSTGRES_URL = tools.get_env_variable("POSTGRES_URL")
 POSTGRES_USER = tools.get_env_variable("POSTGRES_USER")
 POSTGRES_PW = tools.get_env_variable("POSTGRES_PW")
 POSTGRES_DB = tools.get_env_variable("POSTGRES_DB")
 
-# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/cars_api"
-# db = SQLAlchemy(app)
-# migrate = Migrate(app, db)
+# set config for sql alchemy to connect to postgres
+DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
+app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+# create db object that is an sql alch object that is passed the app which has been configed for postgres connection
+db = SQLAlchemy(app)
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
+# set up migrations for database if needed
+migrate = Migrate(app, db)
 
 class CarsModel(db.Model):
     __tablename__ = 'cars'
