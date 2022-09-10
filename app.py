@@ -9,10 +9,10 @@ app = Flask(__name__)
 env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
-POSTGRES_URL = get_env_variable("POSTGRES_URL")
-POSTGRES_USER = get_env_variable("POSTGRES_USER")
-POSTGRES_PW = get_env_variable("POSTGRES_PW")
-POSTGRES_DB = get_env_variable("POSTGRES_DB")
+POSTGRES_URL = os.get_env_variable("POSTGRES_URL")
+POSTGRES_USER = os.get_env_variable("POSTGRES_USER")
+POSTGRES_PW = os.get_env_variable("POSTGRES_PW")
+POSTGRES_DB = os.get_env_variable("POSTGRES_DB")
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:postgres@localhost:5432/cars_api"
 # db = SQLAlchemy(app)
