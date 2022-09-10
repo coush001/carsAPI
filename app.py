@@ -4,7 +4,6 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
-import tools
 
 # create the flask app
 app = Flask(__name__)
@@ -14,17 +13,20 @@ env_config = os.getenv("APP_SETTINGS", "config.DevelopmentConfig")
 app.config.from_object(env_config)
 
 # set up the postgres data base connection variables from ENV
-POSTGRES_URL = tools.get_env_variable("POSTGRES_URL")
-POSTGRES_USER = tools.get_env_variable("POSTGRES_USER")
-POSTGRES_PW = tools.get_env_variable("POSTGRES_PW")
-POSTGRES_DB = tools.get_env_variable("POSTGRES_DB")
+POSTGRES_URL = os.environ['POSTGRES_URL']
+POSTGRES_USER = os.environ["POSTGRES_USER"]
+POSTGRES_PW = os.environ["POSTGRES_PW"]
+POSTGRES_DB = os.environ["POSTGRES_DB"]
+POSTGRES_PORT = 5432
 
 # set config for sql alchemy to connect to postgres
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
 app.config['SQLALCHEMY_DATABASE_URI'] = DB_URL
+
 # create db object that is an sql alch object that is passed the app which has been configed for postgres connection
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # silence the deprecation warning
+
 # set up migrations for database if needed
 migrate = Migrate(app, db)
 
@@ -98,3 +100,7 @@ def handle_car(car_id):
         db.session.delete(car)
         db.session.commit()
         return {"message": f"Car {car.name} successfully deleted."}
+
+
+if __name__ == '__main__':
+    app.run()
