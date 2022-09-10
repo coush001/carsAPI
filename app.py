@@ -18,7 +18,6 @@ POSTGRES_URL = tools.get_env_variable("POSTGRES_URL")
 POSTGRES_USER = tools.get_env_variable("POSTGRES_USER")
 POSTGRES_PW = tools.get_env_variable("POSTGRES_PW")
 POSTGRES_DB = tools.get_env_variable("POSTGRES_DB")
-POSTGES_PORT = tools.get_env_variable("POSTGRES_PORT")
 
 # set config for sql alchemy to connect to postgres
 DB_URL = 'postgresql+psycopg2://{user}:{pw}@{url}/{db}'.format(user=POSTGRES_USER,pw=POSTGRES_PW,url=POSTGRES_URL,db=POSTGRES_DB)
